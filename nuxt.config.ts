@@ -2,6 +2,8 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["@/assets/css/styles.css"],
+  plugins: [],
+  ssr: false,
   modules: [
     'nuxt-headlessui',
     [
@@ -19,6 +21,8 @@ export default defineNuxtConfig({
   },
   postcss: {
     plugins: {
+      "postcss-import": {},
+      "tailwindcss/nesting": {},
       tailwindcss: {},
       autoprefixer: {},
     },

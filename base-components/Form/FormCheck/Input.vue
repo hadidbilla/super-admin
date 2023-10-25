@@ -15,9 +15,8 @@ import { computed, InputHTMLAttributes, useAttrs, ref, watch } from "vue";
 //   type: "radio" | "checkbox";
 // }
 interface InputProps {
-  value?: string | number;
-  type: "radio" | "checkbox" ; // Add other types as needed
-  // Other input-related properties as needed
+  modelValue?: InputHTMLAttributes["value"];
+  type: "radio" | "checkbox";
 }
 interface InputEmit {
   (e: "update:modelValue", value: string): void;
@@ -38,7 +37,7 @@ const computedClass = computed(() =>
 
     // Input type checkbox
     props.type == "checkbox" &&
-      "shadow-sm border-slate-200 cursor-pointer rounded focus:ring-4 focus:ring-offset-0 focus:ring-primary focus:ring-opacity-20 dark:bg-darkmode-800 dark:border-transparent dark:focus:ring-slate-700 dark:focus:ring-opacity-50",
+      "shadow-sm border-slate-200 cursor-pointer rounded focus:ring-4 focus:ring-offset-0 focus:ring-primary focus:ring-opacity-20 ",
 
     // On checked
     "[&[type='radio']]:checked:bg-primary [&[type='radio']]:checked:border-primary [&[type='radio']]:checked:border-opacity-10",

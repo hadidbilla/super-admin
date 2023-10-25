@@ -20,24 +20,10 @@ import { ProvideInputGroup } from "./InputGroup/InputGroup.vue";
 
 /* @vue-ignore */
 interface FormInputProps {
-  value?: string | number;
-  type?: string;
-  autocomplete?: string;
-  autofocus?: boolean;
-  disabled?: boolean;
-  form?: string;
-  maxlength?: number;
-  minlength?: number;
-  name?: string;
-  placeholder?: string;
-  readonly?: boolean;
-  required?: boolean;
-  size?: number;
-  spellcheck?: boolean;
-  // Add other input properties as needed
-  modelValue?: string | number;
+  modelValue?: InputHTMLAttributes["value"];
   formInputSize?: "sm" | "lg";
-  // Other custom properties as needed
+  rounded?: boolean;
+  rectangle?: boolean;
 }
 
 interface FormInputEmit {

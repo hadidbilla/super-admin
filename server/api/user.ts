@@ -1,5 +1,3 @@
-import {H3Error} from "h3"
-import {throws} from "assert";
 import axios from "axios";
 export default defineEventHandler(async (event)=>{
   console.log(event.method)
@@ -11,6 +9,7 @@ export default defineEventHandler(async (event)=>{
           method:"POST",
           body: data
         })
+        setCookie(event, 'token', res.data.token)
         console.log(res.data);
         return res.data
       } catch (e) {

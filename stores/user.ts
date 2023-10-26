@@ -7,7 +7,6 @@ export interface AuthState {
   token: any;
 }
 
-const token =useCookie('token')
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
     user: '',
@@ -15,7 +14,7 @@ export const useAuthStore = defineStore("auth", {
   }),
 
   actions: {
-    async login(loginData:any) {
+    async login(loginData: any) {
       try {
         console.log(loginData)
         const data = await $fetch(`api/user`, {
@@ -27,14 +26,8 @@ export const useAuthStore = defineStore("auth", {
         });
 
         console.log(data)
-        // const router = useRouter();
-
-        token.value = data.token
-        // cookies.set("searchToken", searchToken, new Date(expiresAt).toUTCString());
-        // console.log('cookie.get("token")', cookies.get("token"));
-
-        // this.searchToken = searchToken;
-        // await this.fetchUser();
+        const router = useRouter();
+        await router.push("/")
       } catch (error: any) {
         throw error;
       }

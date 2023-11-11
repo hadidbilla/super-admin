@@ -55,7 +55,7 @@ export default {
           "--color-light": toRGB(colors.slate["100"]),
           "--color-dark": toRGB(colors.slate["800"]),
         },
-      })
+      });
     })
   ],
 }

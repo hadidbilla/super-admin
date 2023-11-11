@@ -32,5 +32,25 @@ export const useAuthStore = defineStore("auth", {
         throw error;
       }
     },
+
+    async signup(signupData:any){
+      try {
+        console.log(signupData)
+        const data = await $fetch(`api/auth/register`, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json' // Set the content type
+          },
+          body: signupData // Convert the data to JSON string
+        });
+
+        console.log(data)
+        const router = useRouter();
+        await router.push("/login")
+      } catch (e) {
+        console.log(e)
+        throw e;
+      }
+    }
   }
 })

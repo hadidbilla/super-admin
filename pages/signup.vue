@@ -9,7 +9,12 @@ import FormCheck from "~/base-components/Form/FormCheck";
 import {email, helpers, minLength, required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 
-import { useToast } from "vue-toastification";
+import {useToast} from "vue-toastification";
+import {useAuthStore} from "~/stores/user";
+import {useLoadingStore} from "~/stores/loading";
+
+const store = useAuthStore(),
+    {stopLoading, startLoading, wait} = useLoadingStore()
 
 const toast = useToast();
 const signupForm = ref({
@@ -34,17 +39,19 @@ const rules = {
 }
 const validate = useVuelidate(rules, signupForm);
 
-const handleSignup = async (e:any) => {
+const handleSignup = async (e: any) => {
   e.preventDefault()
   console.log(signupForm.value);
   validate.value.$touch();
   if (validate.value.$error) return;
-  toast.success("My toast content");
+  // toast.success("My toast content");
   try {
+    startLoading("createUser")
+    let res = await store.signup(signupForm.value)
   } catch (e) {
     console.log(e)
   } finally {
-
+    stopLoading('createUser')
   }
 }
 
@@ -159,7 +166,7 @@ definePageMeta({
                 class="text-lg px-4 py-3 align-top w-full mt-5 capitalize">
           <!--        {{ wait("Login") ? "Logging In" : "Login" }}-->
           Sign Up
-          <!--        <LoadingIcon icon="oval" color="white" class="w-4 h-4 ml-2"  />-->
+                  <LoadingIcon v-if="wait('createUser')" icon="oval" color="white" class="w-4 h-4 ml-2"  />
         </Button>
         <p class=" text-[#64748B] pt-5 text-left">Already Have an Account ?
           <nuxt-link to="/login" class="underline">Login</nuxt-link>

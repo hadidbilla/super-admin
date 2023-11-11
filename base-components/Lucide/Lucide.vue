@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import * as lucideIcons from "lucide-vue-next";
 
+export type Icon = keyof typeof lucideIcons;
+
+interface LucideProps  {
+  icon: Icon;
+  title?: string;
+}
+
+const props = defineProps<LucideProps>();
 </script>
 
 <template>
-  $END$
+  <component :is="lucideIcons[props.icon]" class="stroke-1.5" />
 </template>
-
-<style scoped>
-
-</style>

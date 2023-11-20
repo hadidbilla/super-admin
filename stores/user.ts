@@ -5,12 +5,14 @@ import {$fetch} from "ofetch";
 export interface AuthState {
   user: any;
   token: any;
+  userList: any[];
 }
 
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
     user: '',
     token: null,
+    userList: []
   }),
 
   actions: {
@@ -50,6 +52,37 @@ export const useAuthStore = defineStore("auth", {
       } catch (e) {
         console.log(e)
         throw e;
+      }
+    },
+
+    async logout() {
+      try {
+        const data = await $fetch(`api/auth/logout`, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json' // Set the content type
+          },
+        });
+        console.log(data)
+        const router = useRouter();
+        await router.push("/login")
+      } catch (error: any) {
+        throw error;
+      }
+    },
+
+    async getUserList() {
+      try {
+        const data = await $fetch(`api/user`, {
+          method: "GET",
+          headers: {
+            'Content-Type': 'application/json' // Set the content type
+          },
+        });
+        console.log(data)
+        this.userList = data.users
+      } catch (error: any) {
+        throw error;
       }
     }
   }

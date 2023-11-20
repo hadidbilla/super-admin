@@ -2,7 +2,37 @@
 import Lucide from "~/base-components/Lucide/Lucide.vue";
 import {useSideMenuStore} from "~/stores/side-menu";
 
-const navigation = useSideMenuStore().menu
+const navigation = useSideMenuStore()
+const route = useRoute()
+
+const handleIsActive = () => {
+  const path = route.path.split('/')[1] 
+  navigation.menu.forEach((item) => {
+
+    if (item.path === `/${path}`) {
+      item.current = true
+    } else {
+      if (item.path == route.path) {
+        item.current = true
+      } else {
+        item.current = false
+      }
+    }
+  })
+}
+
+watch(() => route.path, () => {
+  handleIsActive()
+})
+
+const menus = computed(() => {
+  return navigation.menu
+})
+
+onMounted(() => {
+  handleIsActive()
+})
+
 </script>
 
 <template>
@@ -16,8 +46,8 @@ const navigation = useSideMenuStore().menu
         <ul role="list" class="flex flex-1 flex-col gap-y-7">
           <li>
             <ul role="list" class="-mx-2 space-y-1">
-              <li v-for="item in navigation" :key="item.name">
-                <nuxt-link :to="item.href" :class="[item.current ? 'bg-white text-primary' : 'text-white hover:text-slate-300 ', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+              <li v-for="item in menus" :key="item.name">
+                <nuxt-link :to="item.path" :class="[item.current ? 'bg-white text-primary' : 'text-white hover:text-slate-300 ', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                   <component :is="item.icon" :class="[item.current ? 'text-primary' : 'text-white group-hover:text-slate-300', 'h-6 w-6 shrink-0']" aria-hidden="true" />
                   {{ item.name }}
                 </nuxt-link>

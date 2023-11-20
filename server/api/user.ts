@@ -17,4 +17,15 @@ export default defineEventHandler(async (event)=>{
         throw e;
       }
   }
+
+  if(event.method === 'GET'){
+    try {
+      let res = await axios.get('http://localhost:6000/user')
+      console.log(res.data);
+      return res.data
+    } catch (e) {
+      console.log(e)
+      throw e;
+    }
+}
 })

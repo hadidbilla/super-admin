@@ -1,1 +1,3 @@
 @import "./_tailwind.css";
+@import "./components/_intro.css";
+@import "./components/_box.css";

@@ -15,18 +15,26 @@ export interface Menu {
 }
 
 export interface SideMenuState {
-  menu: Array<Menu | "divider">;
+  menu: Menu[]
 }
 
 export const useSideMenuStore = defineStore("sideMenu", {
   state: (): SideMenuState => ({
     menu: [
       { name: 'Dashboard', path: '/', icon: HomeIcon, current: true },
-      { name: 'Team', path: '/', icon: UsersIcon, current: false },
-      { name: 'Projects', path: '/', icon: FolderIcon, current: false },
-      { name: 'Calendar', path: '/', icon: CalendarIcon, current: false },
-      { name: 'Documents', path: '/', icon: FileIcon, current: false },
-      { name: 'Reports', path: '/', icon: GrapeIcon, current: false },
+      { name: 'User', path: '/user', icon: UsersIcon, current: false },
+      { name: 'Test', path: '/test', icon: FileIcon, current: false },
+      // { name: 'Calendar', path: '/', icon: CalendarIcon, current: false },
+      // { name: 'Documents', path: '/', icon: FileIcon, current: false },
+      // { name: 'Reports', path: '/', icon: GrapeIcon, current: false },
     ],
   }),
+  actions: {
+    setCurrentMenu(menu: Menu) {
+      this.menu.forEach((item) => {
+        item.current = false;
+      });
+      menu.current = true;
+    },
+  },
 });

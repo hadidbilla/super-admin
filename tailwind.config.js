@@ -40,7 +40,7 @@ export default {
   },
   plugins: [
     require("@tailwindcss/forms"),
-    require("tailwindcss/nesting"),
+    require('@tailwindcss/nesting'),
     plugin(function ({ addBase, matchUtilities }) {
       addBase({
         // Default colors

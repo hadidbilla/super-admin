@@ -6,7 +6,9 @@ export default defineEventHandler(async (event) => {
     try {
       const { id } = event.context.params;
       console.log("id", id);
-      let res = await axios.get(`http://localhost:6000/user/${id}`);
+      let res = await axios.get(
+        `https://super-admin-server.vercel.app/user/${id}`
+      );
       console.log(res.data);
       return res.data;
     } catch (e) {
@@ -21,7 +23,10 @@ export default defineEventHandler(async (event) => {
       const data = await readBody(event);
       console.log("id", id);
       console.log("data", data);
-      let res = await axios.patch(`http://localhost:6000/user/${id}`, data);
+      let res = await axios.patch(
+        `https://super-admin-server.vercel.app/user/${id}`,
+        data
+      );
 
       console.log(res);
       return { message: "user updated" };
@@ -37,7 +42,9 @@ export default defineEventHandler(async (event) => {
     try {
       const { id } = event.context.params;
       console.log("id", id);
-      let res = await axios.delete(`http://localhost:6000/user/${id}`);
+      let res = await axios.delete(
+        `https://super-admin-server.vercel.app/user/${id}`
+      );
       // console.log(res);
       return res.data;
     } catch (e) {

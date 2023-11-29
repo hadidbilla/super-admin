@@ -5,7 +5,10 @@ export default defineEventHandler(async (event) => {
     try {
       const data = await readBody(event);
       console.log("data", data);
-      let res = await axios.post("http://localhost:6000/user/signup", data);
+      let res = await axios.post(
+        "https://super-admin-server.vercel.app/user/signup",
+        data
+      );
       console.log(res);
       return { message: "user Registered" };
     } catch (e) {

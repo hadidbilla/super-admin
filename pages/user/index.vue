@@ -75,11 +75,15 @@ const setDeleteConfirmationModal = (user?:any) =>{
 
 const deleteUser = async () => {
   try {
-    
+    startLoading("deleteUser")
+    console.log(selectedId.value);
+   await store.deleteUser(selectedId.value)
+    await handleFetchUser()
   } catch (e) {
-    
+    console.log(e);
   } finally {
     setDeleteConfirmationModal();
+    stopLoading("deleteUser")
   }
 }
 

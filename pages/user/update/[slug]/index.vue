@@ -1,11 +1,13 @@
 <template>
-  <div>
-    <h1>hello world</h1>
+  <div class="max-w-[800px] mx-auto">
+    <GlobalPageHeader :showBackButton="true" parentUrl="/user" title="Update User" />
+    <UserForm />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import GlobalPageHeader from '~/components/shared/GlobalPageHeader.vue';
+import UserForm from '@/components/views/users/UserForm.vue';
 
 
 

@@ -66,7 +66,7 @@
                   </FormLabel>
                 </FormInline>
             </div>
-            <div class="input-form mt-3 sm:mt-5" >
+            <div class="input-form mt-3 sm:mt-5" v-if="!route.params.slug">
                 <FormInline class="mt-5 flex-row items-start pt-5 first:mt-0 first:pt-0">
                   <FormLabel class="w-full flex-1 xl:w-64">
                     <div class="mb-3 text-left">
@@ -90,9 +90,9 @@
       </div>
       <div class="mt-5 flex flex-col justify-end gap-2 md:flex-row">
           <Button variant="primary" type="submit" class="py-3">
-            Save
+            {{ route.params.slug ? "Update" : "Save" }}
             <!-- {{ route.params.id ? "Update" : "Save" }} -->
-            <LoadingIcon icon="oval" color="white" class="ml-2 h-4 w-4" v-if="wait('saveAdmin')" />
+            <LoadingIcon icon="oval" color="white" class="ml-2 h-4 w-4" v-if="wait('createUser')" />
           </Button>
         </div>
     </form>
@@ -100,6 +100,7 @@
 </template>
 
 <script setup lang="ts">
+import {ref, onMounted} from "vue";
 import {useAuthStore} from "~/stores/user";
 import {useLoadingStore} from "~/stores/loading";
 import FormInput from "~/base-components/Form/FormInput.vue";
@@ -111,9 +112,10 @@ import FormCheck from "~/base-components/Form/FormCheck";
 import {email, helpers, minLength, required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 
-const store = useAuthStore(),
-    route = useRoute(),
-    {stopLoading, startLoading, wait} = useLoadingStore()
+const store = useAuthStore()
+const route = useRoute();
+const router = useRouter();
+const {stopLoading, startLoading, wait} = useLoadingStore()
 
 const signupForm = ref({
   firstName: "",
@@ -145,7 +147,12 @@ const handleSignup = async (e: any) => {
   // toast.success("My toast content");
   try {
     startLoading("createUser")
-    let res = await store.signup(signupForm.value)
+    if (route.params.slug) {
+      await store.updateUser(route.params.slug, signupForm.value)
+    } else{
+      await store.signup(signupForm.value)
+    }
+    router.push("/user")
   } catch (e) {
     console.log(e)
   } finally {
@@ -156,7 +163,10 @@ const handleSignup = async (e: any) => {
 const handleFetchUser = async () => {
   try {
     startLoading("getUserList")
-    await store.getUserList()
+    await store.getUser(route.params.slug);
+    const newData = JSON.parse(JSON.stringify(userData.value));
+    signupForm.value = {...signupForm.value, ...newData}
+    signupForm.value.password = "*************"
   } catch (error) {
     console.log(error)
   } finally {
@@ -164,9 +174,14 @@ const handleFetchUser = async () => {
   }
 }
 
+const userData = computed(() => {
+  return store.getUserData
+})
+
 
 onMounted(() => {
-  if (route.params.id) {
+// console.log(route);
+  if (route.params.slug) {
     handleFetchUser()
   }
 })

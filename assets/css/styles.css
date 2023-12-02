@@ -1,3 +1,4 @@
 @import "./_tailwind.css";
+@import "./components/_tom-select.css";
 @import "./components/_intro.css";
 @import "./components/_box.css";
